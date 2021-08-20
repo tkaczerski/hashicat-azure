@@ -77,9 +77,9 @@ resource "azurerm_network_security_group" "catapp-sg" {
 }
 
 resource "azurerm_network_interface" "catapp-nic" {
-  name                      = "${var.prefix}-catapp-nic"
-  location                  = var.location
-  resource_group_name       = azurerm_resource_group.myresourcegroup.name
+  name                = "${var.prefix}-catapp-nic"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.myresourcegroup.name
 
   ip_configuration {
     name                          = "${var.prefix}ipconfig"
@@ -105,7 +105,6 @@ resource "azurerm_public_ip" "catapp-pip" {
 resource "azurerm_virtual_machine" "catapp" {
   name                = "${var.prefix}-meow"
   location            = var.location
-  Department          = devops
   resource_group_name = azurerm_resource_group.myresourcegroup.name
   vm_size             = var.vm_size
 
@@ -117,6 +116,9 @@ resource "azurerm_virtual_machine" "catapp" {
     offer     = var.image_offer
     sku       = var.image_sku
     version   = var.image_version
+    tags {
+      Department = devops
+    }
   }
 
   storage_os_disk {
